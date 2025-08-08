@@ -1,0 +1,36 @@
+#include "mathtools.h"
+
+namespace MathTools {
+Vector softmax(const Vector& input)
+{
+    Vector output;
+    output.data = (input.data.array()-input.data.maxCoeff()).exp();
+    output.data = output.data.array() / output.data.array().sum();
+    return output;
+}
+
+Vector ReLu(const Vector& input)
+{
+    Vector output;
+    output.data = input.data.array().max(0);
+    return output;
+}
+Vector Activation(const Vector& input, const std::string& type){
+    switch(type[0]){
+        case 'softmax': return softmax(input);
+        case 'ReLu': return ReLu(input);
+        case 'tanh' : return tanh(input);
+        case 'sigmoid': return sigmoid(input);
+        default: throw std::invalid_argument("Unknown activation type");
+    }
+}
+inline Vector operator+(const Vector& a, const Vector& b){
+    Vector result;
+    result.data = a.data + b.data;
+    return result;
+}
+inline Vector operator*(const Vector& a, const Matrix& b){
+    Vector result;
+    result.data = a.data.transpose() * b.data;
+    return result;
+}}
