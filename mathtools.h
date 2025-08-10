@@ -27,7 +27,11 @@ Vector Activation(const Vector& input, const std::string& type);
 inline Vector operator+(const Vector& a, const Vector& b);
 inline Vector operator*(const Vector& a, const Matrix& b);
 
-
+// Utility functions
+double vectorNorm(const Vector& v);
+double vectorMean(const Vector& v);
+Vector vectorAbs(const Vector& v);
+double cosineSimilarity(const Vector& a, const Vector& b);
 
 }
 

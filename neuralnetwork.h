@@ -13,7 +13,7 @@ private:
     std::vector<MathTools::Matrix> weights;
     std::vector<MathTools::Vector> biases;
     std::vector<int> layer_sizes;
-    std::vector<std::string> activation_functions;  // One per hidden layer
+    std::vector<std::string> activation_functions;
 
 public:
     // Constructor
@@ -33,6 +33,9 @@ public:
     void initializeWeights();
     int getOutputSize() const { return layer_sizes.back(); }
     const std::vector<std::string>& getActivations() const { return activation_functions; }
+    
+    // Get total number of parameters (weights + biases) in the network
+    size_t getParameterCount() const;
 };
 
 }

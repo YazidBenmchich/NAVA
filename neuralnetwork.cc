@@ -15,24 +15,20 @@ NeuralNetwork::NeuralNetwork(const std::vector<int>& layers,
     
     // Check activation functions count
     // We need (layers.size() - 2) activations for hidden layers
-    // Output layer always uses softmax
-    size_t expected_activations = layers.size() - 2;
+    size_t expected_activations = layers.size() - 1;
     if (activations.size() != expected_activations) {
-        throw std::invalid_argument("Number of activation functions must equal number of hidden layers (" 
+        throw std::invalid_argument("Number of activation functions must equal number of hidden layers + 1 (" 
                                   + std::to_string(expected_activations) + ")");
     }
     
     initializeWeights();
 }
 
-// ...existing initializeWeights() code stays the same...
 
 MathTools::Vector NeuralNetwork::predict(const MathTools::Vector& input) {
     MathTools::Vector current = input;
-    
-    // Forward pass through all layers
     for (size_t i = 0; i < weights.size(); ++i) {
-        // Matrix multiplication: current * weights[i]
+        
         MathTools::Vector weighted;
         weighted.data = current.data.transpose() * weights[i].data;
         
@@ -153,6 +149,19 @@ void NeuralNetwork::loadWeights(const std::string& filename) {
     }
     
     file.close();
+}
+
+size_t NeuralNetwork::getParameterCount() const {
+    size_t total_params = 0;
+    
+    for (size_t i = 0; i < weights.size(); ++i) {
+        // Count weights
+        total_params += weights[i].data.rows() * weights[i].data.cols();
+        // Count biases
+        total_params += biases[i].data.size();
+    }
+    
+    return total_params;
 }
 
 }

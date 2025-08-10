@@ -33,4 +33,32 @@ inline Vector operator*(const Vector& a, const Matrix& b){
     Vector result;
     result.data = a.data.transpose() * b.data;
     return result;
-}}
+}
+
+double vectorNorm(const Vector& v) {
+    return v.data.norm();
+}
+
+double vectorMean(const Vector& v) {
+    return v.data.mean();
+}
+
+Vector vectorAbs(const Vector& v) {
+    Vector result;
+    result.data = v.data.cwiseAbs();
+    return result;
+}
+
+double cosineSimilarity(const Vector& a, const Vector& b) {
+    double dot_product = a.data.dot(b.data);
+    double norm_a = a.data.norm();
+    double norm_b = b.data.norm();
+    
+    if (norm_a == 0.0 || norm_b == 0.0) {
+        return 0.0;
+    }
+    
+    return dot_product / (norm_a * norm_b);
+}
+
+}
