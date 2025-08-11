@@ -155,9 +155,7 @@ size_t NeuralNetwork::getParameterCount() const {
     size_t total_params = 0;
     
     for (size_t i = 0; i < weights.size(); ++i) {
-        // Count weights
         total_params += weights[i].data.rows() * weights[i].data.cols();
-        // Count biases
         total_params += biases[i].data.size();
     }
     
