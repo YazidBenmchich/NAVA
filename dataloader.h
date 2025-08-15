@@ -9,7 +9,7 @@ namespace NAVA {
 
 class DataLoader {
 public:
-    static std::vector<MathTools::Vector> loadMNISTImages(const std::string& filename);
+    static std::vector<MathTools::Vector>  loadMNISTImages(const std::string& filename);
     static std::vector<MathTools::Vector> loadMNISTLabels(const std::string& filename);
     
     static std::vector<MathTools::Vector> loadCSV(const std::string& filename, bool has_header = false);
