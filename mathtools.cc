@@ -58,7 +58,7 @@ double cosineSimilarity(const Vector& a, const Vector& b) {
         return 0.0;
     }
     
-    return dot_product / (norm_a * norm_b);
+    return dot_product/(norm_a * norm_b);
 }
 
 }
