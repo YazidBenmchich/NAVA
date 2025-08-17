@@ -49,16 +49,6 @@ Vector vectorAbs(const Vector& v) {
     return result;
 }
 
-double cosineSimilarity(const Vector& a, const Vector& b) {
-    double dot_product = a.data.dot(b.data);
-    double norm_a = a.data.norm();
-    double norm_b = b.data.norm();
-    
-    if (norm_a == 0.0 || norm_b == 0.0) {
-        return 0.0;
-    }
-    
-    return dot_product/(norm_a * norm_b);
-}
+
 
 }
