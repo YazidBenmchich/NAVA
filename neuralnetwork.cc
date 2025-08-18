@@ -14,7 +14,7 @@ NeuralNetwork::NeuralNetwork(const std::vector<int>& layers,
     }
     
     // Check activation functions count
-    // We need (layers.size() - 2) activations for hidden layers
+    // We need (layers.size() - 2) activations for hidden layers + 1 for output layer
     size_t expected_activations = layers.size() - 1;
     if (activations.size() != expected_activations) {
         throw std::invalid_argument("Number of activation functions must equal number of hidden layers + 1 (" 
@@ -28,29 +28,41 @@ NeuralNetwork::NeuralNetwork(const std::vector<int>& layers,
 MathTools::Vector NeuralNetwork::predict(const MathTools::Vector& input) {
     MathTools::Vector current = input;
     for (size_t i = 0; i < weights.size(); ++i) {
-        
-        MathTools::Vector weighted;
-        weighted.data = current.data.transpose() * weights[i].data;
-        
-        // Add bias
+
         MathTools::Vector layer_output;
-        layer_output.data = weighted.data + biases[i].data;
-        
+        // Compute weighted sum
+        layer_output.data = weights[i].data * current.data + biases[i].data;
         // Apply activation function
-        if (i == weights.size() - 1) {
-            // Output layer - always use softmax for classification
-            current = MathTools::softmax(layer_output);
-        } else {
-            // Hidden layers - use specified activation for this layer
-            current = MathTools::Activation(layer_output, activation_functions[i]);
-        }
+        current = MathTools::Activation(layer_output, activation_functions[i]);
     }
     
     return current;
 }
-
-// ...existing accuracy() code stays the same...
-
+int NeuralNetwork::maxProbabilityLabel(MathTools::Vector& output_values) {
+    if (output_values.data.size() == 0) {
+        throw std::invalid_argument("Empty vector passed to maxProbabilityLabel");
+    }
+    int maxIndex = 0;
+    double maxValue = output_values.data[0];
+    for (int i = 1; i < output_values.data.size(); ++i) {
+        if (output_values.data[i] > maxValue) {
+            maxValue = output_values.data[i];
+            maxIndex = i;
+        }
+    }
+    return maxIndex;
+}
+double NeuralNetwork::accuracy(const std::vector<MathTools::Vector>& test_data, 
+                   const std::vector<MathTools::Vector>& test_labels){
+                    double accuracy(0);
+                    int accurateDate(0);
+                    int dataSize(test_data.size());
+                    for (int i(0); i<dataSize;i++){
+                        if (maxProbabilityLabel(predict(test_data[i])) == maxProbabilityLabel(test_labels[i])){
+                            accurateDate++;
+                        }
+                    }
+                   }
 void NeuralNetwork::saveWeights(const std::string& filename) {
     std::ofstream file(filename, std::ios::binary);
     if (!file.is_open()) {

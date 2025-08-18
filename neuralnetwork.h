@@ -14,6 +14,7 @@ private:
     std::vector<MathTools::Vector> biases;
     std::vector<int> layer_sizes;
     std::vector<std::string> activation_functions;
+    std::vector<std::string> output_labels;
 
 public:
     // Constructor
@@ -30,6 +31,7 @@ public:
     void loadWeights(const std::string& filename);
     
     // Utility
+    int maxProbabilityLabel(MathTools::Vector& output_values);
     void initializeWeights();
     int getOutputSize() const { return layer_sizes.back(); }
     const std::vector<std::string>& getActivations() const { return activation_functions; }
