@@ -113,14 +113,14 @@ void NeuralNetwork::loadWeights(const std::string& filename) {
         throw std::runtime_error("Cannot open file for reading: " + filename);
     }
     
-    // Load layer sizes
+
     size_t num_layers;
     file.read(reinterpret_cast<char*>(&num_layers), sizeof(num_layers));
     layer_sizes.resize(num_layers);
     file.read(reinterpret_cast<char*>(layer_sizes.data()), 
               num_layers * sizeof(int));
     
-    // Load activation functions
+   
     size_t num_activations;
     file.read(reinterpret_cast<char*>(&num_activations), sizeof(num_activations));
     activation_functions.clear();
