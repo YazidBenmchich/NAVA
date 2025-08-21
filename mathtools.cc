@@ -29,7 +29,7 @@ inline Vector operator+(const Vector& a, const Vector& b){
     result.data = a.data + b.data;
     return result;
 }
-inline Vector operator*(const Vector& a, const Matrix& b){
+inline Vector operator*(const Matrix& a, const Vector& b){
     Vector result;
     result.data = a.data.transpose() * b.data;
     return result;

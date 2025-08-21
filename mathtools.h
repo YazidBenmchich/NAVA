@@ -25,7 +25,7 @@ Vector Activation(const Vector& input, const std::string& type);
 
 // Matrix operations
 inline Vector operator+(const Vector& a, const Vector& b);
-inline Vector operator*(const Vector& a, const Matrix& b);
+inline Vector operator*(const Matrix& a, const Vector& b);
 
 // Utility functions
 double vectorNorm(const Vector& v);
