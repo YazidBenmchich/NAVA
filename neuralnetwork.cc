@@ -9,13 +9,13 @@ NeuralNetwork::NeuralNetwork(const std::vector<int>& layers,
                            const std::vector<std::string>& activations)
     : layer_sizes(layers), activation_functions(activations) {
     
-    if (layers.size() < 2) {
-        throw std::invalid_argument("Neural network must have at least 2 layers");
+    if (layers.size() < 1) {
+        throw std::invalid_argument("Neural network must have at least 1 layers");
     }
     
     // Check activation functions count
     // We need (layers.size() - 2) activations for hidden layers + 1 for output layer
-    size_t expected_activations = layers.size() - 1;
+    size_t expected_activations = layers.size();
     if (activations.size() != expected_activations) {
         throw std::invalid_argument("Number of activation functions must equal number of hidden layers + 1 (" 
                                   + std::to_string(expected_activations) + ")");
@@ -28,10 +28,8 @@ NeuralNetwork::NeuralNetwork(const std::vector<int>& layers,
 MathTools::Vector NeuralNetwork::predict(const MathTools::Vector& input) {
     MathTools::Vector current = input;
     for (size_t i = 0; i < weights.size(); ++i) {
-
         MathTools::Vector layer_output;
-        // Compute weighted sum
-        layer_output.data = weights[i].data * current.data + biases[i].data;
+        layer_output = weights[i] * current + biases[i];
         // Apply activation function
         current = MathTools::Activation(layer_output, activation_functions[i]);
     }
