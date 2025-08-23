@@ -17,7 +17,6 @@ private:
     std::vector<std::string> output_labels;
 
 public:
-    // Constructor
     NeuralNetwork(const std::vector<int>& layers, 
                   const std::vector<std::string>& activations);
     
