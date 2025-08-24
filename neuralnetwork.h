@@ -30,7 +30,7 @@ public:
     void loadWeights(const std::string& filename);
     
     // Utility
-    int maxProbabilityLabel(MathTools::Vector& output_values);
+    int maxProbabilityLabel(const MathTools::Vector& output_values) const;
     void initializeWeights();
     int getOutputSize() const { return layer_sizes.back(); }
     const std::vector<std::string>& getActivations() const { return activation_functions; }

@@ -30,13 +30,11 @@ MathTools::Vector NeuralNetwork::predict(const MathTools::Vector& input) {
     for (size_t i = 0; i < weights.size(); ++i) {
         MathTools::Vector layer_output;
         layer_output = weights[i] * current + biases[i];
-        // Apply activation function
         current = MathTools::Activation(layer_output, activation_functions[i]);
     }
-    
     return current;
 }
-int NeuralNetwork::maxProbabilityLabel(MathTools::Vector& output_values) {
+int NeuralNetwork::maxProbabilityLabel(const MathTools::Vector& output_values) const {
     if (output_values.data.size() == 0) {
         throw std::invalid_argument("Empty vector passed to maxProbabilityLabel");
     }
@@ -52,7 +50,6 @@ int NeuralNetwork::maxProbabilityLabel(MathTools::Vector& output_values) {
 }
 double NeuralNetwork::accuracy(const std::vector<MathTools::Vector>& test_data, 
                    const std::vector<MathTools::Vector>& test_labels){
-                    double accuracy(0);
                     int accurateDate(0);
                     int dataSize(test_data.size());
                     for (int i(0); i<dataSize;i++){
@@ -60,7 +57,8 @@ double NeuralNetwork::accuracy(const std::vector<MathTools::Vector>& test_data,
                             accurateDate++;
                         }
                     }
-                   }
+                    return (double)accurateDate/dataSize;
+}
 void NeuralNetwork::saveWeights(const std::string& filename) {
     std::ofstream file(filename, std::ios::binary);
     if (!file.is_open()) {
