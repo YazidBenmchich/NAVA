@@ -19,6 +19,7 @@ std::vector<MathTools::Vector> DataLoader::loadMNISTImages(const std::string& fi
     file.read(reinterpret_cast<char*>(&cols), sizeof(cols));
     
     // Convert from big-endian to little-endian
+
     magic_number = reverseBytes(magic_number);
     num_images = reverseBytes(num_images);
     rows = reverseBytes(rows);
