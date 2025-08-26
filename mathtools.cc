@@ -49,6 +49,17 @@ Vector vectorAbs(const Vector& v) {
     return result;
 }
 
-
+std::vector<std::vector<double>> Matrix::toCppVectorForm(){
+    std::vector<std::vector<double>> result(data.rows(), std::vector<double>(data.cols()));
+    for(int i = 0; i < data.rows(); ++i)
+        for(int j = 0; j < data.cols(); ++j)
+            result[i][j] = data(i,j);
+    return result;
+}
+std::vector<double> Vector::toCppVectorForm(){
+    std::vector<double> result(data.size());
+    for(int i = 0; i < data.size(); ++i)
+        result[i] = data(i);
+    return result;
 
 }

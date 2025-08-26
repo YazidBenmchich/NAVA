@@ -10,10 +10,12 @@ namespace MathTools {
 struct Matrix
 {
     Eigen::MatrixXd data;
+    std::vector<std::vector<double>> toCppVectorForm();
 };
 struct Vector
 {
     Eigen::VectorXd data;
+    std::vector<double> toCppVectorForm();
 };
 
 // Activation functions

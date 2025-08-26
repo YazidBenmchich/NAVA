@@ -2,6 +2,7 @@
 #include <random>
 #include <algorithm>
 #include <stdexcept>
+#include <fstream>
 
 namespace NAVA {
 
@@ -60,47 +61,24 @@ double NeuralNetwork::accuracy(const std::vector<MathTools::Vector>& test_data,
                     return (double)accurateDate/dataSize;
 }
 void NeuralNetwork::saveWeights(const std::string& filename) {
-    std::ofstream file(filename, std::ios::binary);
+    std::ofstream file("test.txt", std::ios::trunc);
     if (!file.is_open()) {
         throw std::runtime_error("Cannot open file for writing: " + filename);
     }
-    
     // Save layer sizes
     size_t num_layers = layer_sizes.size();
-    file.write(reinterpret_cast<const char*>(&num_layers), sizeof(num_layers));
-    file.write(reinterpret_cast<const char*>(layer_sizes.data()), 
-               num_layers * sizeof(int));
-    
+    file << num_layers << "\n";
+    for (int size : layer_sizes) {
+        file << size << " ";
+    }
+    file << "\n";
     // Save activation functions
-    size_t num_activations = activation_functions.size();
-    file.write(reinterpret_cast<const char*>(&num_activations), sizeof(num_activations));
-    
-    for (const auto& activation : activation_functions) {
-        size_t activation_length = activation.length();
-        file.write(reinterpret_cast<const char*>(&activation_length), sizeof(activation_length));
-        file.write(activation.c_str(), activation_length);
+    for (int i(0); i<activation_functions.size();i++){
+        file << activation_functions[i]<<";";
     }
+    file << "\n";
+    // Save weights and biases
     
-    // Save weights and biases (same as before)
-    for (size_t i = 0; i < weights.size(); ++i) {
-        // Save weight matrix dimensions
-        int rows = weights[i].data.rows();
-        int cols = weights[i].data.cols();
-        file.write(reinterpret_cast<const char*>(&rows), sizeof(rows));
-        file.write(reinterpret_cast<const char*>(&cols), sizeof(cols));
-        
-        // Save weight data
-        file.write(reinterpret_cast<const char*>(weights[i].data.data()),
-                   rows * cols * sizeof(double));
-        
-        // Save bias vector size and data
-        int bias_size = biases[i].data.size();
-        file.write(reinterpret_cast<const char*>(&bias_size), sizeof(bias_size));
-        file.write(reinterpret_cast<const char*>(biases[i].data.data()),
-                   bias_size * sizeof(double));
-    }
-    
-    file.close();
 }
 
 void NeuralNetwork::loadWeights(const std::string& filename) {
