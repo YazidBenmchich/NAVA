@@ -78,6 +78,7 @@ void NeuralNetwork::saveWeights(const std::string& filename) {
     }
     file << "\n";
     // Save weights and biases
+    //Upcoming changes
     
 }
 
